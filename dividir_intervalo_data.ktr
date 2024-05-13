@@ -470,6 +470,18 @@
     </partitioning>
     <fields>
       <field>
+        <name>maquina</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
         <name>data_inicio</name>
         <type>String</type>
         <format>yyyy/MM/dd HH:mm:ss</format>
@@ -496,8 +508,14 @@
     </fields>
     <data>
       <line>
-        <item>2024/05/07 23:00:00</item>
-        <item>2024/05/10 08:00:00</item>
+        <item>A</item>
+        <item>2024/05/07 23:50:23</item>
+        <item>2024/05/10 00:25:01</item>
+      </line>
+      <line>
+        <item>B</item>
+        <item>2024/05/06 11:50:33</item>
+        <item>2024/05/07 12:25:01</item>
       </line>
     </data>
     <attributes/>
@@ -534,41 +552,22 @@
         <jsScript_script>
 data_inicio = data_inicio.substr(0,10);
 data_fim = data_fim.substr(0,10);
-const dataI = new Date(data_inicio);
-const dataF = new Date(data_fim);
+
+var dataI = new Date(data_inicio);
+var dataF = new Date(data_fim);
+var valor = null;
 for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
-	var valor = valor == null ? d+',':valor+d+',';
-}</jsScript_script>
+	valor = valor == null ? d+',':valor+d+',';
+}
+
+//Remover o último caractere da string (nesse caso é uma vírgula)
+var data = valor.slice(0, -1) + ' ';</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
       <field>
-        <name>dataI</name>
-        <rename>dataI</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>dataF</name>
-        <rename>dataF</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>d</name>
-        <rename>d</rename>
-        <type>Date</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>valor</name>
-        <rename>valor</rename>
+        <name>data</name>
+        <rename>data</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -584,39 +583,7 @@ for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Split field to rows</name>
-    <type>SplitFieldToRows3</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <splitfield>valor</splitfield>
-    <delimiter>,</delimiter>
-    <newfield>newData</newfield>
-    <rownum>N</rownum>
-    <rownum_field/>
-    <resetrownumber>Y</resetrownumber>
-    <delimiter_is_regex>N</delimiter_is_regex>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>384</xloc>
+      <xloc>176</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -634,21 +601,38 @@ for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
     </partitioning>
     <fields>
       <field>
-        <name>data_inicio</name>
+        <name>maquina</name>
         <rename/>
       </field>
       <field>
-        <name>data_fim</name>
+        <name>dataInicio</name>
         <rename/>
       </field>
       <field>
-        <name>novaData</name>
+        <name>dataFim</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
-        <name>novaData</name>
-        <rename>novaData</rename>
+        <name>dataInicio</name>
+        <rename>dataInicio</rename>
+        <type>Date</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy-MM-dd HH:mm:ss</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>dataFim</name>
+        <rename>dataFim</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -673,7 +657,39 @@ for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
       </output>
     </remotesteps>
     <GUI>
-      <xloc>688</xloc>
+      <xloc>624</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Split field to rows</name>
+    <type>SplitFieldToRows3</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <splitfield>data</splitfield>
+    <delimiter>,</delimiter>
+    <newfield>newData</newfield>
+    <rownum>N</rownum>
+    <rownum_field/>
+    <resetrownumber>Y</resetrownumber>
+    <delimiter_is_regex>N</delimiter_is_regex>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>352</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -695,14 +711,32 @@ for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
       <jsScript>
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>var novaData = new Date(newData);
-</jsScript_script>
+        <jsScript_script>var horas = 86399999;
+data = new Date(newData);
+dataPadrao = data;
+data = data.getTime();
+data = data + horas;
+data = new Date(data);
+
+data_inicio = new Date(data_inicio);
+data_fim = new Date(data_fim);
+
+dataInicio = data_inicio > dataPadrao ? data_inicio:data;
+dataFim = data_fim &lt; data ? data_fim:data;</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
       <field>
-        <name>novaData</name>
-        <rename>novaData</rename>
+        <name>dataInicio</name>
+        <rename>dataInicio</rename>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>dataFim</name>
+        <rename>dataFim</rename>
         <type>Date</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -718,7 +752,7 @@ for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
       </output>
     </remotesteps>
     <GUI>
-      <xloc>528</xloc>
+      <xloc>496</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>

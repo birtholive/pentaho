@@ -556,6 +556,7 @@ data_fim = data_fim.substr(0,10);
 var dataI = new Date(data_inicio);
 var dataF = new Date(data_fim);
 var valor = null;
+
 for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
 	valor = valor == null ? d+',':valor+d+',';
 }
@@ -721,7 +722,7 @@ data = new Date(data);
 data_inicio = new Date(data_inicio);
 data_fim = new Date(data_fim);
 
-dataInicio = data_inicio > dataPadrao ? data_inicio:data;
+dataInicio = data_inicio > dataPadrao ? data_inicio:dataPadrao;
 dataFim = data_fim &lt; data ? data_fim:data;</jsScript_script>
       </jsScript>
     </jsScripts>

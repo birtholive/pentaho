@@ -437,11 +437,6 @@
   </notepads>
   <order>
     <hop>
-      <from>Data grid</from>
-      <to>Modified JavaScript value</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>Split field to rows</from>
       <to>converterDatas</to>
       <enabled>Y</enabled>
@@ -452,8 +447,18 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Modified JavaScript value</from>
+      <from>ArrayDatas</from>
       <to>Split field to rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Data grid</from>
+      <to>dataString</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dataString</from>
+      <to>ArrayDatas</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -483,7 +488,7 @@
       </field>
       <field>
         <name>data_inicio</name>
-        <type>String</type>
+        <type>Date</type>
         <format>yyyy/MM/dd HH:mm:ss</format>
         <currency/>
         <decimal/>
@@ -495,7 +500,7 @@
       </field>
       <field>
         <name>data_fim</name>
-        <type>String</type>
+        <type>Date</type>
         <format>yyyy/MM/dd HH:mm:ss</format>
         <currency/>
         <decimal/>
@@ -517,6 +522,11 @@
         <item>2024/05/06 11:50:33</item>
         <item>2024/05/07 12:25:01</item>
       </line>
+      <line>
+        <item>C</item>
+        <item>2024/05/10 11:00:00</item>
+        <item>2024/05/14 11:00:00</item>
+      </line>
     </data>
     <attributes/>
     <cluster_schema/>
@@ -533,7 +543,7 @@
     </GUI>
   </step>
   <step>
-    <name>Modified JavaScript value</name>
+    <name>ArrayDatas</name>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
@@ -550,25 +560,21 @@
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
         <jsScript_script>
-data_inicio = data_inicio.substr(0,10);
-data_fim = data_fim.substr(0,10);
+di = new Date(di);
+df = new Date(df);
 
-var dataI = new Date(data_inicio);
-var dataF = new Date(data_fim);
-var valor = null;
+var lista = [];
 
-for (d=dataI;d&lt;=dataF;d.setDate(d.getDate() + 1)){
-	valor = valor == null ? d+',':valor+d+',';
-}
-
-//Remover o último caractere da string (nesse caso é uma vírgula)
-var data = valor.slice(0, -1) + ' ';</jsScript_script>
+for (d=di;d&lt;=df;d.setDate(d.getDate() + 1)) {
+  var data = new Date(d);
+  lista.push(data)
+}</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
       <field>
-        <name>data</name>
-        <rename>data</rename>
+        <name>lista</name>
+        <rename>lista</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -584,7 +590,7 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>176</xloc>
+      <xloc>320</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -606,21 +612,21 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
         <rename/>
       </field>
       <field>
-        <name>dataInicio</name>
+        <name>data_inicio</name>
         <rename/>
       </field>
       <field>
-        <name>dataFim</name>
+        <name>data_fim</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
-        <name>dataInicio</name>
-        <rename>dataInicio</rename>
+        <name>data_inicio</name>
+        <rename>data_inicio</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
-        <conversion_mask>yyyy-MM-dd HH:mm:ss</conversion_mask>
+        <conversion_mask>yyyy-MM-dd HH:mm:ss.SSS</conversion_mask>
         <date_format_lenient>false</date_format_lenient>
         <date_format_locale/>
         <date_format_timezone/>
@@ -632,12 +638,12 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
         <storage_type/>
       </meta>
       <meta>
-        <name>dataFim</name>
-        <rename>dataFim</rename>
+        <name>data_fim</name>
+        <rename>data_fim</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
-        <conversion_mask>yyyy-MM-dd HH:mm:ss</conversion_mask>
+        <conversion_mask>yyyy-MM-dd HH:mm:ss.SSS</conversion_mask>
         <date_format_lenient>false</date_format_lenient>
         <date_format_locale/>
         <date_format_timezone/>
@@ -658,7 +664,7 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>624</xloc>
+      <xloc>736</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -674,7 +680,7 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <splitfield>data</splitfield>
+    <splitfield>lista</splitfield>
     <delimiter>,</delimiter>
     <newfield>newData</newfield>
     <rownum>N</rownum>
@@ -690,7 +696,7 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
+      <xloc>464</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
@@ -712,36 +718,31 @@ var data = valor.slice(0, -1) + ' ';</jsScript_script>
       <jsScript>
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>var horas = 86399999;
-data = new Date(newData);
-dataPadrao = data;
-data = data.getTime();
-data = data + horas;
-data = new Date(data);
-
-data_inicio = new Date(data_inicio);
-data_fim = new Date(data_fim);
-
-dataInicio = data_inicio > dataPadrao ? data_inicio:dataPadrao;
-dataFim = data_fim &lt; data ? data_fim:data;</jsScript_script>
+        <jsScript_script>data_inicio = data_inicio.getTime();//retorna a data em milissegundos
+data_fim = data_fim.getTime();
+newData = new Date(newData);
+var dInicio = newData.getTime();
+var dFim = dInicio + 86399999; //adicionando 23h 59min 59s 999ms à data_inicio
+data_inicio = data_inicio > dInicio ? data_inicio:dInicio;
+data_fim = data_fim &lt; dFim ? data_fim:dFim;</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
       <field>
-        <name>dataInicio</name>
-        <rename>dataInicio</rename>
+        <name>data_inicio</name>
+        <rename>data_inicio</rename>
         <type>Date</type>
         <length>-1</length>
         <precision>-1</precision>
-        <replace>N</replace>
+        <replace>Y</replace>
       </field>
       <field>
-        <name>dataFim</name>
-        <rename>dataFim</rename>
+        <name>data_fim</name>
+        <rename>data_fim</rename>
         <type>Date</type>
         <length>-1</length>
         <precision>-1</precision>
-        <replace>N</replace>
+        <replace>Y</replace>
       </field>
     </fields>
     <attributes/>
@@ -753,7 +754,89 @@ dataFim = data_fim &lt; data ? data_fim:data;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
+      <xloc>592</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dataString</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>maquina</name>
+        <rename/>
+      </field>
+      <field>
+        <name>data_inicio</name>
+        <rename/>
+      </field>
+      <field>
+        <name>data_fim</name>
+        <rename/>
+      </field>
+      <field>
+        <name>data_inicio</name>
+        <rename>di</rename>
+      </field>
+      <field>
+        <name>data_fim</name>
+        <rename>df</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>di</name>
+        <rename>di</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy/MM/dd</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>df</name>
+        <rename>df</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask>yyyy/MM/dd</conversion_mask>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>160</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>

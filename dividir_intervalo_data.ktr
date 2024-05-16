@@ -438,11 +438,11 @@
   <order>
     <hop>
       <from>Split field to rows</from>
-      <to>converterDatas</to>
+      <to>defineDatasDuracao</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>converterDatas</from>
+      <from>defineDatasDuracao</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
@@ -462,86 +462,6 @@
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Data grid</name>
-    <type>DataGrid</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>maquina</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <field_null_if/>
-      </field>
-      <field>
-        <name>data_inicio</name>
-        <type>Date</type>
-        <format>yyyy/MM/dd HH:mm:ss</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <field_null_if/>
-      </field>
-      <field>
-        <name>data_fim</name>
-        <type>Date</type>
-        <format>yyyy/MM/dd HH:mm:ss</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <field_null_if/>
-      </field>
-    </fields>
-    <data>
-      <line>
-        <item>A</item>
-        <item>2024/05/07 23:50:23</item>
-        <item>2024/05/10 00:25:01</item>
-      </line>
-      <line>
-        <item>B</item>
-        <item>2024/05/06 11:50:33</item>
-        <item>2024/05/07 12:25:01</item>
-      </line>
-      <line>
-        <item>C</item>
-        <item>2024/05/10 11:00:00</item>
-        <item>2024/05/14 11:00:00</item>
-      </line>
-    </data>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>48</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>ArrayDatas</name>
     <type>ScriptValueMod</type>
@@ -596,6 +516,81 @@ for (d=di;d&lt;=df;d.setDate(d.getDate() + 1)) {
     </GUI>
   </step>
   <step>
+    <name>Data grid</name>
+    <type>DataGrid</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>maquina</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
+        <name>data_inicio</name>
+        <type>Date</type>
+        <format>yyyy/MM/dd HH:mm:ss</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+      <field>
+        <name>data_fim</name>
+        <type>Date</type>
+        <format>yyyy/MM/dd HH:mm:ss</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <field_null_if/>
+      </field>
+    </fields>
+    <data>
+      <line>
+        <item>A</item>
+        <item>2024/05/07 23:50:23</item>
+        <item>2024/05/12 10:25:01</item>
+      </line>
+      <line>
+        <item>B</item>
+        <item>2024/05/06 11:50:33</item>
+        <item>2024/05/07 12:25:01</item>
+      </line>
+    </data>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>48</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
     <name>Select values</name>
     <type>SelectValues</type>
     <description/>
@@ -617,6 +612,10 @@ for (d=di;d&lt;=df;d.setDate(d.getDate() + 1)) {
       </field>
       <field>
         <name>data_fim</name>
+        <rename/>
+      </field>
+      <field>
+        <name>duracao</name>
         <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
@@ -702,7 +701,7 @@ for (d=di;d&lt;=df;d.setDate(d.getDate() + 1)) {
     </GUI>
   </step>
   <step>
-    <name>converterDatas</name>
+    <name>defineDatasDuracao</name>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
@@ -718,13 +717,27 @@ for (d=di;d&lt;=df;d.setDate(d.getDate() + 1)) {
       <jsScript>
         <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>data_inicio = data_inicio.getTime();//retorna a data em milissegundos
-data_fim = data_fim.getTime();
-newData = new Date(newData);
-var dInicio = newData.getTime();
-var dFim = dInicio + 86399999; //adicionando 23h 59min 59s 999ms à data_inicio
-data_inicio = data_inicio > dInicio ? data_inicio:dInicio;
-data_fim = data_fim &lt; dFim ? data_fim:dFim;</jsScript_script>
+        <jsScript_script>di = new Date(data_inicio.getTime());
+df = new Date(data_fim.getTime());
+var dInicio = new Date(newData);
+var dFim = new Date(dInicio.getTime() + 86399999); //adicionando 23h 59min 59s 999ms à data_inicio
+data_inicio = di > dInicio ? di:dInicio;
+data_fim = df &lt; dFim ? df:dFim;
+
+var diff=(data_fim.getTime()-data_inicio.getTime());
+var horas=parseInt(diff/3600000);
+var minutos=parseInt(parseInt(diff%3600000)/60000);
+
+function verificaValor(v){
+	if(v&lt;10){
+		v='0'+v;
+	}
+	return v;
+}
+
+horas = verificaValor(horas);
+minutos = verificaValor(minutos);
+var duracao=horas+'h'+minutos+'min';</jsScript_script>
       </jsScript>
     </jsScripts>
     <fields>
@@ -743,6 +756,14 @@ data_fim = data_fim &lt; dFim ? data_fim:dFim;</jsScript_script>
         <length>-1</length>
         <precision>-1</precision>
         <replace>Y</replace>
+      </field>
+      <field>
+        <name>duracao</name>
+        <rename>duracao</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
       </field>
     </fields>
     <attributes/>
@@ -773,15 +794,12 @@ data_fim = data_fim &lt; dFim ? data_fim:dFim;</jsScript_script>
     <fields>
       <field>
         <name>maquina</name>
-        <rename/>
       </field>
       <field>
         <name>data_inicio</name>
-        <rename/>
       </field>
       <field>
         <name>data_fim</name>
-        <rename/>
       </field>
       <field>
         <name>data_inicio</name>
@@ -836,7 +854,7 @@ data_fim = data_fim &lt; dFim ? data_fim:dFim;</jsScript_script>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
+      <xloc>192</xloc>
       <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>

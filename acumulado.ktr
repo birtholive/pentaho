@@ -548,11 +548,7 @@
       </output>
     </remotesteps>
     <GUI>
-<<<<<<< HEAD
-      <xloc>208</xloc>
-=======
       <xloc>232</xloc>
->>>>>>> a6e79269c6a2756d4c739e69978b689b75dff47a
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -604,11 +600,7 @@ if(sequencia==1){
       </output>
     </remotesteps>
     <GUI>
-<<<<<<< HEAD
-      <xloc>352</xloc>
-=======
       <xloc>432</xloc>
->>>>>>> a6e79269c6a2756d4c739e69978b689b75dff47a
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>

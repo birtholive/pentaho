@@ -548,7 +548,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>232</xloc>
+      <xloc>208</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -600,7 +600,7 @@ if(sequencia==1){
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
+      <xloc>352</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
